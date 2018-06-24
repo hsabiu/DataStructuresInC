@@ -15,6 +15,7 @@ void insertNodeAtBegining(int);
 void insertNodeAtEnd(int);
 void insertNodeAtNthPosition(int, int);
 void deleteNthNode(int);
+void reverseList();
 
 int main(void){
 
@@ -95,7 +96,24 @@ int main(void){
 
     puts("\n");
 
+    printf("Reversing the linked list... \n");
+    reverseList();
+    printNodesInList();
+
+    puts("\n");
+    
     return 0;
+}
+
+int numItems(){
+    int num = 1;
+    struct Node* currentNode = headNode;
+
+    while(currentNode->nextNode != NULL){
+        num++;
+        currentNode = currentNode->nextNode;
+    }
+    return num;
 }
 
 void printNodesInList(){
@@ -122,6 +140,21 @@ void insertNodeAtBegining(int item){
     }
 
     headNode = newNode;
+}
+
+void insertNodeAtEnd(int item){
+
+    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
+    newNode->data = item;
+
+    struct Node* tempNode = headNode;
+
+    while(tempNode->nextNode != NULL){
+        tempNode = tempNode->nextNode;
+    }
+
+    newNode->nextNode = NULL;
+    tempNode->nextNode = newNode;
 }
 
 void insertNodeAtNthPosition(int n, int item){
@@ -153,21 +186,6 @@ void insertNodeAtNthPosition(int n, int item){
     tempNode->nextNode = newNode;
 }
 
-void insertNodeAtEnd(int item){
-
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-    newNode->data = item;
-
-    struct Node* tempNode = headNode;
-
-    while(tempNode->nextNode != NULL){
-        tempNode = tempNode->nextNode;
-    }
-
-    newNode->nextNode = NULL;
-    tempNode->nextNode = newNode;
-}
-
 void deleteNthNode(int n){
 
     int numListItems = numItems();
@@ -183,6 +201,7 @@ void deleteNthNode(int n){
 
     if (n == 0){
          headNode = currentNode->nextNode;
+         free(currentNode);
          return;
      }
 
@@ -195,13 +214,18 @@ void deleteNthNode(int n){
     free(currentNode);
 }
 
-int numItems(){
-    int num = 1;
-    struct Node* currentNode = headNode;
+void reverseList(){
 
-    while(currentNode->nextNode != NULL){
-        num++;
-        currentNode = currentNode->nextNode;
+    struct Node *current, *next, *prev;
+    current = headNode;
+    prev = NULL;
+
+    while(current != NULL){
+        next = current->nextNode;
+        current->nextNode = prev;
+        prev = current;
+        current = next;
     }
-    return num;
+
+    headNode = prev;
 }
