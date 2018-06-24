@@ -16,7 +16,9 @@ void insertNodeAtNthPosition(int, int);
 
 int main(void){
 
-    int userInput, item;
+    int item;
+    int userInput;
+
     headNode = NULL;
     
     printf("How many items do you want to initially insert? \n");
@@ -36,16 +38,16 @@ int main(void){
     printf("Inserting 20 at position 3 in the linked list... \n");
     insertNodeAtNthPosition(3, 20);
     printNodesInList();
-    // printf("Inserting 30 at position 7 in the linked list... \n");
-    // insertNodeAtNthPosition(7, 30);
-    // printNodesInList();
+    printf("Inserting 30 at position 7 in the linked list... \n");
+    insertNodeAtNthPosition(7, 30);
+    printNodesInList();
 
-    // printf("Inserting 40 at the end of the linked list... \n");
-    // insertNodeAtEnd(40);
-    // printNodesInList();
+    printf("Inserting 40 at the end of the linked list... \n");
+    insertNodeAtEnd(40);
+    printNodesInList();
 
-    // insertNodeAtNthPosition(1, 50);
-    // printNodesInList();
+    printf("Inserting 20 at a position that do not exist in the linked list... \n");
+    insertNodeAtNthPosition(userInput + 5, 20);
 
     return 0;
 }
@@ -78,14 +80,27 @@ void insertNodeAtBegining(int item){
 
 void insertNodeAtNthPosition(int n, int item){
 
+    struct Node* tempNode = headNode;
+    int numListItems = 1;
+
+    while(tempNode->nextNode != NULL){
+        numListItems++;
+        tempNode = tempNode->nextNode;
+    }
+
+    if (n > numListItems){
+        printf("===> Can not insert %d at position %d. The linked list has %d items \n", item, n, numListItems);
+        return;
+    }
+
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
 
-    struct Node* tempNode = headNode;
+    tempNode = headNode;
 
     if (n == 0){
-        tempNode->nextNode = headNode;
-        headNode = tempNode;
+        newNode->nextNode = tempNode;
+        headNode = newNode;
         return;
     }
 
