@@ -9,6 +9,7 @@ struct Node{
 
 struct Node* headNode;
 
+// Functions function prototype
 int numItems();
 void printNodesInList();
 void insertNodeAtBegining(int);
@@ -16,6 +17,9 @@ void insertNodeAtEnd(int);
 void insertNodeAtNthPosition(int, int);
 void deleteNthNode(int);
 void reverseList();
+void recursiveReverseList(struct Node*);
+void recursivePrintList(struct Node*);
+void recursivePrintListInReverse(struct Node*);
 
 int main(void){
 
@@ -101,7 +105,23 @@ int main(void){
     printNodesInList();
 
     puts("\n");
-    
+
+    printf("Reversing the linked list using recursion... \n");
+    recursiveReverseList(headNode);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Printing the list items using recursion... \n");
+    recursivePrintList(headNode);
+
+    puts("\n");
+
+    printf("Printing the list items in reverse using recursion... \n");
+    recursivePrintListInReverse(headNode);
+
+    puts("\n");
+
     return 0;
 }
 
@@ -228,4 +248,36 @@ void reverseList(){
     }
 
     headNode = prev;
+}
+
+void recursiveReverseList(struct Node* tempNode){
+
+    if (tempNode->nextNode == NULL){
+        headNode = tempNode;
+        return;
+    }
+
+    recursiveReverseList(tempNode->nextNode);
+    tempNode->nextNode->nextNode = tempNode;
+    tempNode->nextNode = NULL;
+}
+
+void recursivePrintList(struct Node* head){
+
+    if(head->nextNode == NULL){
+        printf("%d, ", head->data);
+        return;
+    }
+    printf("%d, ", head->data);
+    recursivePrintList(head->nextNode);
+}
+
+void recursivePrintListInReverse(struct Node* head){
+
+    if(head->nextNode == NULL){
+        printf("%d, ", head->data);
+        return;
+    }
+    recursivePrintListInReverse(head->nextNode);
+    printf("%d, ", head->data);
 }
