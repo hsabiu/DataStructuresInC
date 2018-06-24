@@ -92,7 +92,7 @@ int main(void){
     printf("Deleting 5th node from the linked list... \n");
     deleteNthNode(5);
     printNodesInList();
-    
+
     puts("\n");
 
     return 0;
@@ -192,6 +192,7 @@ void deleteNthNode(int n){
     }
 
     previousNode->nextNode = currentNode->nextNode;
+    free(currentNode);
 }
 
 int numItems(){
