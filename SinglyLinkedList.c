@@ -9,10 +9,12 @@ struct Node{
 
 struct Node* headNode;
 
+int numItems();
 void printNodesInList();
 void insertNodeAtBegining(int);
 void insertNodeAtEnd(int);
 void insertNodeAtNthPosition(int, int);
+void deleteNthNode(int);
 
 int main(void){
 
@@ -31,6 +33,8 @@ int main(void){
         printNodesInList();
     }
 
+    puts("\n");
+
     // Inseart the item 2 at position 1
     printf("Inserting 10 at position 0 in the linked list... \n");
     insertNodeAtNthPosition(0, 10);
@@ -42,12 +46,54 @@ int main(void){
     insertNodeAtNthPosition(7, 30);
     printNodesInList();
 
-    printf("Inserting 40 at the end of the linked list... \n");
-    insertNodeAtEnd(40);
+    puts("\n");
+
+    printf("Inserting 40 at the begining of the linked list... \n");
+    insertNodeAtBegining(40);
     printNodesInList();
 
-    printf("Inserting 20 at a position that do not exist in the linked list... \n");
-    insertNodeAtNthPosition(userInput + 5, 20);
+    puts("\n");
+
+    printf("Inserting 50 at the end of the linked list... \n");
+    insertNodeAtEnd(50);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Inserting 60 at a position that do not exist in the linked list... \n");
+    insertNodeAtNthPosition(userInput + 6, 60);
+
+    puts("\n");
+
+    printf("Deleting 1st node from the linked list... \n");
+    deleteNthNode(0);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Deleting 1st node from the linked list... \n");
+    deleteNthNode(0);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Deleting 3rd node from the linked list... \n");
+    deleteNthNode(2);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Deleting 5th node from the linked list... \n");
+    deleteNthNode(5);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Deleting 5th node from the linked list... \n");
+    deleteNthNode(5);
+    printNodesInList();
+    
+    puts("\n");
 
     return 0;
 }
@@ -81,12 +127,7 @@ void insertNodeAtBegining(int item){
 void insertNodeAtNthPosition(int n, int item){
 
     struct Node* tempNode = headNode;
-    int numListItems = 1;
-
-    while(tempNode->nextNode != NULL){
-        numListItems++;
-        tempNode = tempNode->nextNode;
-    }
+    int numListItems = numItems();
 
     if (n > numListItems){
         printf("===> Can not insert %d at position %d. The linked list has %d items \n", item, n, numListItems);
@@ -127,3 +168,39 @@ void insertNodeAtEnd(int item){
     tempNode->nextNode = newNode;
 }
 
+void deleteNthNode(int n){
+
+    int numListItems = numItems();
+    struct Node* previousNode = NULL;
+    struct Node* currentNode = headNode;
+
+    if (n > numListItems){
+        printf("===> Can not delete item at position %d. The linked list has only %d items.\n", n, numListItems);
+        return;
+    }
+
+    currentNode = headNode;
+
+    if (n == 0){
+         headNode = currentNode->nextNode;
+         return;
+     }
+
+    for(int i = 0; i < n; i++){
+        previousNode = currentNode;
+        currentNode = currentNode->nextNode;
+    }
+
+    previousNode->nextNode = currentNode->nextNode;
+}
+
+int numItems(){
+    int num = 1;
+    struct Node* currentNode = headNode;
+
+    while(currentNode->nextNode != NULL){
+        num++;
+        currentNode = currentNode->nextNode;
+    }
+    return num;
+}
