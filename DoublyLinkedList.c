@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 struct Node{
     int data;
+    struct Node* prevNode;
     struct Node* nextNode;
 };
-
-struct Node* headNode;
 
 // Functions function prototype
 int numItems();
@@ -20,6 +18,8 @@ void reverseList();
 void recursiveReverseList(struct Node*);
 void recursivePrintList(struct Node*);
 void recursivePrintListInReverse(struct Node*);
+
+struct Node* headNode;
 
 int main(void){
 
@@ -70,58 +70,6 @@ int main(void){
 
     puts("\n");
 
-    printf("Deleting 1st node from the linked list... \n");
-    deleteNthNode(0);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Deleting 1st node from the linked list... \n");
-    deleteNthNode(0);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Deleting 3rd node from the linked list... \n");
-    deleteNthNode(2);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Deleting 5th node from the linked list... \n");
-    deleteNthNode(5);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Deleting 5th node from the linked list... \n");
-    deleteNthNode(5);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Reversing the linked list... \n");
-    reverseList();
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Reversing the linked list using recursion... \n");
-    recursiveReverseList(headNode);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Printing the list items using recursion... \n");
-    recursivePrintList(headNode);
-
-    puts("\n");
-
-    printf("Printing the list items in reverse using recursion... \n");
-    recursivePrintListInReverse(headNode);
-
-    puts("\n");
-
     return 0;
 }
 
@@ -136,20 +84,6 @@ int numItems(){
     return num;
 }
 
-void printNodesInList(){
-
-    struct Node* tempHeadNode = headNode;
-
-    printf("List items: ");
-
-    while(tempHeadNode != NULL){
-        printf("%d, ", tempHeadNode->data);
-        tempHeadNode = tempHeadNode->nextNode;
-    }
-
-    printf("\n");
-}
-
 void insertNodeAtBegining(int item){
 
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
@@ -157,6 +91,7 @@ void insertNodeAtBegining(int item){
 
     if(headNode != NULL){
         newNode->nextNode = headNode;
+        newNode->prevNode = NULL;
     }
 
     headNode = newNode;
@@ -172,8 +107,9 @@ void insertNodeAtEnd(int item){
 
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
+    newNode->prevNode = tempNode;
     newNode->nextNode = NULL;
-    
+
     tempNode->nextNode = newNode;
 }
 
@@ -190,10 +126,9 @@ void insertNodeAtNthPosition(int n, int item){
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
 
-    tempNode = headNode;
-
     if (n == 0){
         newNode->nextNode = tempNode;
+        newNode->prevNode = NULL;
         headNode = newNode;
         return;
     }
@@ -202,82 +137,21 @@ void insertNodeAtNthPosition(int n, int item){
         tempNode = tempNode->nextNode;
     }
 
+    newNode->prevNode = tempNode;
     newNode->nextNode = tempNode->nextNode;
     tempNode->nextNode = newNode;
 }
 
-void deleteNthNode(int n){
+void printNodesInList(){
 
-    int numListItems = numItems();
-    struct Node* previousNode = NULL;
-    struct Node* currentNode = headNode;
+    struct Node* tempHeadNode = headNode;
 
-    if (n > numListItems){
-        printf("===> Can not delete item at position %d. The linked list has only %d items.\n", n, numListItems);
-        return;
+    printf("List items: ");
+
+    while(tempHeadNode != NULL){
+        printf("%d, ", tempHeadNode->data);
+        tempHeadNode = tempHeadNode->nextNode;
     }
 
-    currentNode = headNode;
-
-    if (n == 0){
-         headNode = currentNode->nextNode;
-         free(currentNode);
-         return;
-     }
-
-    for(int i = 0; i < n; i++){
-        previousNode = currentNode;
-        currentNode = currentNode->nextNode;
-    }
-
-    previousNode->nextNode = currentNode->nextNode;
-    free(currentNode);
-}
-
-void reverseList(){
-
-    struct Node *current, *next, *prev;
-    current = headNode;
-    prev = NULL;
-
-    while(current != NULL){
-        next = current->nextNode;
-        current->nextNode = prev;
-        prev = current;
-        current = next;
-    }
-
-    headNode = prev;
-}
-
-void recursiveReverseList(struct Node* tempNode){
-
-    if (tempNode->nextNode == NULL){
-        headNode = tempNode;
-        return;
-    }
-
-    recursiveReverseList(tempNode->nextNode);
-    tempNode->nextNode->nextNode = tempNode;
-    tempNode->nextNode = NULL;
-}
-
-void recursivePrintList(struct Node* head){
-
-    if(head->nextNode == NULL){
-        printf("%d, ", head->data);
-        return;
-    }
-    printf("%d, ", head->data);
-    recursivePrintList(head->nextNode);
-}
-
-void recursivePrintListInReverse(struct Node* head){
-
-    if(head->nextNode == NULL){
-        printf("%d, ", head->data);
-        return;
-    }
-    recursivePrintListInReverse(head->nextNode);
-    printf("%d, ", head->data);
+    printf("\n");
 }
