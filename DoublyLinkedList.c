@@ -98,8 +98,29 @@ int main(void){
     deleteNthNode(5);
     printNodesInList();
 
+    // puts("\n");
+
+    // printf("Reversing the linked list... \n");
+    // reverseList();
+    // printNodesInList();
+
     puts("\n");
 
+    printf("Reversing the linked list using recursion... \n");
+    recursiveReverseList(headNode);
+    printNodesInList();
+
+    puts("\n");
+
+    printf("Printing the list items using recursion... \n");
+    recursivePrintList(headNode);
+
+    puts("\n");
+
+    printf("Printing the list items in reverse using recursion... \n");
+    recursivePrintListInReverse(headNode);
+
+    puts("\n");
 
     return 0;
 }
@@ -203,6 +224,22 @@ void deleteNthNode(int n){
         currentNode->prevNode->nextNode = currentNode->nextNode;
     }
     free(currentNode);
+}
+
+void reverseList(){
+
+}
+
+void recursiveReverseList(struct Node* tempNode){
+
+    if(tempNode->nextNode == NULL){
+        headNode = tempNode;
+        return;
+    }
+     
+    recursiveReverseList(tempNode->nextNode);
+    tempNode->nextNode->nextNode = tempNode;
+    tempNode->nextNode = NULL;
 }
 
 void printNodesInList(){
