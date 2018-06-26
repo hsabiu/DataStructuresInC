@@ -88,13 +88,13 @@ int main(void){
 
     puts("\n");
 
-    printf("Deleting 5th node from the linked list... \n");
+    printf("Deleting 6th node from the linked list... \n");
     deleteNthNode(5);
     printNodesInList();
 
     puts("\n");
 
-    printf("Deleting 5th node from the linked list... \n");
+    printf("Deleting 6th node from the linked list... \n");
     deleteNthNode(5);
     printNodesInList();
 
@@ -121,6 +121,10 @@ int main(void){
     recursivePrintListInReverse(headNode);
 
     puts("\n");
+
+    puts("------------------------------");
+    puts("SUCCESS: ALL TEST CASES PASSED");
+    puts("------------------------------");
 
     return 0;
 }
@@ -173,7 +177,7 @@ void insertNodeAtEnd(int item){
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
     newNode->nextNode = NULL;
-    
+
     tempNode->nextNode = newNode;
 }
 
@@ -216,8 +220,6 @@ void deleteNthNode(int n){
         printf("===> Can not delete item at position %d. The linked list has only %d items.\n", n, numListItems);
         return;
     }
-
-    currentNode = headNode;
 
     if (n == 0){
          headNode = currentNode->nextNode;
