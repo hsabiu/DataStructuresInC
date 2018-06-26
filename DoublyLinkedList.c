@@ -136,6 +136,20 @@ int numItems(){
     return num;
 }
 
+void printNodesInList(){
+
+    struct Node* tempHeadNode = headNode;
+
+    printf("List items: ");
+
+    while(tempHeadNode != NULL){
+        printf("%d, ", tempHeadNode->data);
+        tempHeadNode = tempHeadNode->nextNode;
+    }
+
+    printf("\n");
+}
+
 void insertNodeAtBegining(int item){
 
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
@@ -242,16 +256,26 @@ void recursiveReverseList(struct Node* tempNode){
     tempNode->nextNode = NULL;
 }
 
-void printNodesInList(){
+void recursivePrintList(struct Node* head){
 
-    struct Node* tempHeadNode = headNode;
-
-    printf("List items: ");
-
-    while(tempHeadNode != NULL){
-        printf("%d, ", tempHeadNode->data);
-        tempHeadNode = tempHeadNode->nextNode;
+    if(head->nextNode == NULL){
+        printf("%d, ", head->data);
+        return;
     }
 
-    printf("\n");
+    printf("%d, ", head->data);
+    recursivePrintList(head->nextNode);
+}
+
+
+void recursivePrintListInReverse(struct Node* head){
+
+    if(head->nextNode == NULL){
+        printf("%d, ", head->data);
+        return;
+    }
+
+    recursivePrintListInReverse(head->nextNode);
+    printf("%d, ", head->data);
+
 }
