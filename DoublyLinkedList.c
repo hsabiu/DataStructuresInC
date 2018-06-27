@@ -203,7 +203,7 @@ void insertNodeAtNthIndex(int n, int item){
     int numListItems = numItems();
 
     if (n > numListItems){
-        printf("===> Can not insert %d at index %d. The linked list has %d items \n", item, n, numListItems);
+        printf("===> Can not insert %d at index %d. \n", item, n);
         return;
     }
 
@@ -232,7 +232,7 @@ void deleteNthNode(int n){
     int numListItems = numItems();
 
     if (n > numListItems){
-        printf("===> Can not delete item at index %d. The linked list has only %d items.\n", n, numListItems);
+        printf("===> Can not delete item at index %d. \n", n);
         return;
     }
 
