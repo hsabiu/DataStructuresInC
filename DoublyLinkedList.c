@@ -10,14 +10,15 @@ struct Node{
 // Functions function prototype
 int numItems();
 void printNodesInList();
-void insertNodeAtBegining(int);
-void insertNodeAtEnd(int);
-void insertNodeAtNthIndex(int, int);
+void insertNode(int, struct Node*);
+void deleteNode(struct Node*);
 void deleteNthNode(int);
 void reverseList();
 void recursiveReverseList(struct Node*);
 void recursivePrintList(struct Node*);
 void recursivePrintListInReverse(struct Node*);
+struct Node* findPointerAtIndex(int);
+
 
 struct Node* headNode;
 
@@ -27,84 +28,89 @@ int main(void){
     int userInput;
 
     headNode = NULL;
-    
+    struct Node* pointerAtIndex = NULL;
+
     printf("How many items do you want to initialize? \n");
     scanf("%d", &userInput);
 
     for(int i = 0; i < userInput; i++){
         printf("Enter %d item: \n", i + 1);
         scanf("%d", &item);
-        insertNodeAtBegining(item);
+        insertNode(item, headNode);
         printNodesInList();
     }
 
     puts("\n");
 
     printf("Inserting 10 at index 0 in the linked list... \n");
-    insertNodeAtNthIndex(0, 10);
+    insertNode(10, headNode);
     printNodesInList();
     printf("Inserting 20 at index 3 in the linked list... \n");
-    insertNodeAtNthIndex(3, 20);
+    pointerAtIndex = findPointerAtIndex(3);
+    insertNode(20, pointerAtIndex);
     printNodesInList();
     printf("Inserting 30 at index 7 in the linked list... \n");
-    insertNodeAtNthIndex(7, 30);
+    pointerAtIndex = findPointerAtIndex(7);
+    insertNode(30, pointerAtIndex);
     printNodesInList();
 
     puts("\n");
 
     printf("Inserting 40 at the begining of the linked list... \n");
-    insertNodeAtBegining(40);
+    insertNode(40, headNode);
     printNodesInList();
 
     puts("\n");
 
     printf("Inserting 50 at the end of the linked list... \n");
-    insertNodeAtEnd(50);
+    pointerAtIndex = findPointerAtIndex(numItems());
+    insertNode(50, pointerAtIndex);
     printNodesInList();
 
     puts("\n");
 
     printf("Inserting 60 at index that do not exist in the linked list... \n");
-    insertNodeAtNthIndex(userInput + 6, 60);
+    pointerAtIndex = findPointerAtIndex(userInput + 6);
+    puts("\n");  
+
+    printNodesInList();
+    printf("Deleting the node at index 0 from the linked list... \n");
+    deleteNode(headNode);
+    printf("Deletion successful... \n");
 
     puts("\n");
 
     printNodesInList();
     printf("Deleting the node at index 0 from the linked list... \n");
-    deleteNthNode(0);
+    deleteNode(headNode);
     printf("Deletion successful... \n");
-    printNodesInList();
-
-    puts("\n");
-
-    printNodesInList();
-    printf("Deleting the node at index 0 from the linked list... \n");
-    deleteNthNode(0);
-    printf("Deletion successful... \n");
-    printNodesInList();
 
     puts("\n");
 
     printNodesInList();
     printf("Deleting the node at index 2 from the linked list... \n");
-    deleteNthNode(2);
+    pointerAtIndex = findPointerAtIndex(3);
+    deleteNode(pointerAtIndex);
     printf("Deletion successful... \n");
-    printNodesInList();
 
     puts("\n");
 
     printNodesInList();
     printf("Deleting the node at 5 index from the linked list... \n");
-    deleteNthNode(5);
+    pointerAtIndex = findPointerAtIndex(6);
+    deleteNode(pointerAtIndex);
     printf("Deletion successful... \n");
-    printNodesInList();
 
     puts("\n");
 
     printNodesInList();
     printf("Deleting the node at index 5 from the linked list... \n");
-    deleteNthNode(5);
+    pointerAtIndex = findPointerAtIndex(6);
+    deleteNode(pointerAtIndex);
     printf("Deletion successful... \n");
+
+    puts("\n");
+
     printNodesInList();
 
     puts("\n");
@@ -165,66 +171,63 @@ void printNodesInList(){
     printf("\n");
 }
 
-void insertNodeAtBegining(int item){
-
+void insertNode(int item, struct Node* position){
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
-    newNode->nextNode = NULL;
-    newNode->prevNode = NULL;
-
-    if(headNode == NULL){
-        headNode = newNode;
-        return;
-    }
-    
-    headNode->prevNode = newNode;
-    newNode->nextNode = headNode;
-    headNode = newNode;
-}
-
-void insertNodeAtEnd(int item){
-
-    struct Node* tempNode = headNode;
-
-    while(tempNode->nextNode != NULL){
-        tempNode = tempNode->nextNode;
-    }
-
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-    newNode->data = item;
-    newNode->prevNode = tempNode;
-    newNode->nextNode = NULL;
-
-    tempNode->nextNode = newNode;
-}
-
-void insertNodeAtNthIndex(int n, int item){
-
-    int numListItems = numItems();
-
-    if (n > numListItems){
-        printf("===> Can not insert %d at index %d. \n", item, n);
-        return;
-    }
-
-    struct Node* tempNode = headNode;
-    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
-    newNode->data = item;
-
-    if (n == 0){
-        newNode->nextNode = tempNode;
+    if (position == NULL){
+        newNode->nextNode = NULL;
         newNode->prevNode = NULL;
         headNode = newNode;
         return;
     }
 
-    for(int i = 0; i < n - 1; i++){
-        tempNode = tempNode->nextNode;
+    if(position == headNode){
+        newNode->nextNode = position;
+        newNode->prevNode = NULL;
+        position->prevNode = newNode;   
+        headNode = newNode;
+    } 
+    else{
+        newNode->nextNode = position->nextNode;
+        newNode->prevNode = position;
+        position->nextNode = newNode;   
+    }
+}
+
+void deleteNode(struct Node* position){
+    
+    if(position == headNode){
+        headNode = position->nextNode;
+        position->nextNode->prevNode = NULL;
+    }
+    
+    else if(position->nextNode == NULL){
+        position->prevNode->nextNode = NULL;
+    }
+    
+    else{
+        position->prevNode->nextNode = position->nextNode;
+        position->nextNode->prevNode = position->prevNode;
+    }
+    free(position);
+}
+
+struct Node* findPointerAtIndex(int index){
+    
+    int numListItems = numItems();
+
+    if (index > numListItems){
+        printf("===> Can not insert at index %d. \n", index);
+        return NULL;
     }
 
-    newNode->prevNode = tempNode;
-    newNode->nextNode = tempNode->nextNode;
-    tempNode->nextNode = newNode;
+    struct Node* tempNode = headNode;
+
+    for(int i = 0; i < index - 1; i++){
+        tempNode = tempNode->nextNode;
+    }
+    
+    return tempNode;
 }
 
 void deleteNthNode(int n){
