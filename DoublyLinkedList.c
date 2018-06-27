@@ -12,7 +12,6 @@ int numItems();
 void printNodesInList();
 void insertNode(int, struct Node*);
 void deleteNode(struct Node*);
-void deleteNthNode(int);
 void reverseList();
 void recursiveReverseList(struct Node*);
 void recursivePrintList(struct Node*);
@@ -228,37 +227,6 @@ struct Node* findPointerAtIndex(int index){
     }
     
     return tempNode;
-}
-
-void deleteNthNode(int n){
-    
-    int numListItems = numItems();
-
-    if (n > numListItems){
-        printf("===> Can not delete item at index %d. \n", n);
-        return;
-    }
-
-    struct Node* currentNode = headNode;
-
-    if (n == 0){
-        headNode = currentNode->nextNode;
-        free(currentNode);
-        return;
-     }
-
-     for(int i = 0; i < n; i++){
-        currentNode = currentNode->nextNode;
-     }
-
-    if(currentNode->nextNode == NULL){
-        currentNode->prevNode->nextNode = NULL;
-    }
-    else{
-        currentNode->nextNode->prevNode = currentNode->prevNode;
-        currentNode->prevNode->nextNode = currentNode->nextNode;
-    }
-    free(currentNode);
 }
 
 void reverseList(){
