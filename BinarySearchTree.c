@@ -16,6 +16,7 @@ int findMin(struct BSTNode*);
 int findMax(struct BSTNode*);
 int findMinRecursive(struct BSTNode*);
 int findMaxRecursive(struct BSTNode*);
+int findHeight(struct BSTNode*);
 
 int main(void){
 
@@ -80,6 +81,11 @@ int main(void){
 
     printf("Finding the maximum data in the BST recursively... Should return 20...\n");
     printf("===> %d \n", findMaxRecursive(rootNode));
+
+    puts("\n");
+
+    printf("Finding the height of the BST recursively... Should return 3...\n");
+    printf("===> %d \n", findHeight(rootNode));
 
     puts("\n");
 
@@ -173,5 +179,22 @@ int findMaxRecursive(struct BSTNode* rootNode){
     
     else{
         return findMaxRecursive(rootNode->rightChild);
+    }
+}
+
+int findHeight(struct BSTNode* headNode){
+
+    if(headNode == NULL){
+        return 0;
+    }
+
+    int leftHeight = findHeight(headNode->leftChild);
+    int rightHeight = findHeight(headNode->rightChild);
+
+    if(leftHeight > rightHeight){
+        return leftHeight + 1;
+    }
+    else{
+        return rightHeight + 1;
     }
 }
