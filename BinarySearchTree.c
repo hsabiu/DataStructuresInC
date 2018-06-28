@@ -14,6 +14,8 @@ struct BSTNode* insertNode(struct BSTNode*, int);
 bool searchNode(struct BSTNode*, int);
 int findMin(struct BSTNode*);
 int findMax(struct BSTNode*);
+int findMinRecursive(struct BSTNode*);
+int findMaxRecursive(struct BSTNode*);
 
 int main(void){
 
@@ -68,6 +70,16 @@ int main(void){
 
     printf("Finding the maximum data in the BST... Should return 20...\n");
     printf("===> %d \n", findMax(rootNode));
+
+    puts("\n");
+
+    printf("Finding the minimum data in the BST recursively... Should return 5...\n");
+    printf("===> %d \n", findMinRecursive(rootNode));
+
+    puts("\n");
+
+    printf("Finding the maximum data in the BST recursively... Should return 20...\n");
+    printf("===> %d \n", findMaxRecursive(rootNode));
 
     puts("\n");
 
@@ -132,4 +144,34 @@ int findMax(struct BSTNode* rootNode){
         rootNode = rootNode->rightChild;
     }
     return rootNode->data;
+}
+
+int findMinRecursive(struct BSTNode* rootNode){
+    if(rootNode == NULL){
+        printf("ERROR: Empty tree");
+        return -1;
+    }
+
+    else if(rootNode->leftChild == NULL){
+        return rootNode->data;
+    }
+    
+    else{
+        return findMinRecursive(rootNode->leftChild);
+    }
+}
+
+int findMaxRecursive(struct BSTNode* rootNode){
+    if(rootNode == NULL){
+        printf("ERROR: Empty tree");
+        return -1;
+    }
+
+    else if(rootNode->rightChild == NULL){
+        return rootNode->data;
+    }
+    
+    else{
+        return findMaxRecursive(rootNode->rightChild);
+    }
 }
