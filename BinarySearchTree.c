@@ -12,6 +12,8 @@ struct BSTNode{
 struct BSTNode* createNewNode(int);
 struct BSTNode* insertNode(struct BSTNode*, int);
 bool searchNode(struct BSTNode*, int);
+int findMin(struct BSTNode*);
+int findMax(struct BSTNode*);
 
 int main(void){
 
@@ -59,6 +61,16 @@ int main(void){
 
     puts("\n");
 
+    printf("Finding the minimum data in the BST... Should return 5...\n");
+    printf("===> %d \n", findMin(rootNode));
+
+    puts("\n");
+
+    printf("Finding the maximum data in the BST... Should return 20...\n");
+    printf("===> %d \n", findMax(rootNode));
+
+    puts("\n");
+
     puts("------------------------------");
     puts("SUCCESS: ALL TEST CASES PASSED");
     puts("------------------------------");
@@ -93,7 +105,31 @@ struct BSTNode* insertNode(struct BSTNode* rootNode, int item){
 bool searchNode(struct BSTNode* rootNode, int item){
 
     if (rootNode == NULL) return false;
-    else if (rootNode->data == item) return true;
+    else if (item == rootNode->data) return true;
     else if (item <= rootNode->data) return searchNode(rootNode->leftChild, item);
     else return searchNode(rootNode->rightChild, item);
+}
+
+int findMin(struct BSTNode* rootNode){
+    if(rootNode == NULL){
+        printf("ERROR: Empty tree");
+        return -1;
+    }
+
+    while(rootNode->leftChild != NULL){
+        rootNode = rootNode->leftChild;
+    }
+    return rootNode->data;
+}
+
+int findMax(struct BSTNode* rootNode){
+    if(rootNode == NULL){
+        printf("ERROR: Empty tree");
+        return -1;
+    }
+
+    while(rootNode->rightChild != NULL){
+        rootNode = rootNode->rightChild;
+    }
+    return rootNode->data;
 }
