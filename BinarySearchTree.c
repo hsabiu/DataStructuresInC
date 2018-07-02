@@ -9,14 +9,21 @@ struct BSTNode{
     struct BSTNode* rightChild;
 };
 
-struct BSTNode* createNewNode(int);
-struct BSTNode* insertNode(struct BSTNode*, int);
-bool searchNode(struct BSTNode*, int);
+
 int findMin(struct BSTNode*);
 int findMax(struct BSTNode*);
 int findMinRecursive(struct BSTNode*);
 int findMaxRecursive(struct BSTNode*);
 int findHeight(struct BSTNode*);
+
+bool searchNode(struct BSTNode*, int);
+
+struct BSTNode* createNewNode(int);
+struct BSTNode* insertNode(struct BSTNode*, int);
+
+void BSTPreOrderTraversal(struct BSTNode*);
+void BSTInOrderTraversal(struct BSTNode*);
+void BSTPostOrderTraversal(struct BSTNode*);
 
 int main(void){
 
@@ -130,7 +137,7 @@ bool searchNode(struct BSTNode* rootNode, int item){
 
 int findMin(struct BSTNode* rootNode){
     if(rootNode == NULL){
-        printf("ERROR: Empty tree");
+        printf("ERROR: Empty is tree");
         return -1;
     }
 
@@ -142,7 +149,7 @@ int findMin(struct BSTNode* rootNode){
 
 int findMax(struct BSTNode* rootNode){
     if(rootNode == NULL){
-        printf("ERROR: Empty tree");
+        printf("ERROR: Empty is tree");
         return -1;
     }
 
@@ -182,14 +189,14 @@ int findMaxRecursive(struct BSTNode* rootNode){
     }
 }
 
-int findHeight(struct BSTNode* headNode){
+int findHeight(struct BSTNode* rootNode){
 
-    if(headNode == NULL){
+    if(rootNode == NULL){
         return 0;
     }
 
-    int leftHeight = findHeight(headNode->leftChild);
-    int rightHeight = findHeight(headNode->rightChild);
+    int leftHeight = findHeight(rootNode->leftChild);
+    int rightHeight = findHeight(rootNode->rightChild);
 
     if(leftHeight > rightHeight){
         return leftHeight + 1;
@@ -197,4 +204,28 @@ int findHeight(struct BSTNode* headNode){
     else{
         return rightHeight + 1;
     }
+}
+
+void BSTPreOrderTraversal(struct BSTNode* root){
+    if(root == NULL) return;
+
+    printf("%d, ", root->data);
+    BSTPreOrderTraversal(root->leftChild);
+    BSTPreOrderTraversal(root->rightChild);
+}
+
+void BSTInOrderTraversal(struct BSTNode* root){
+    if(root == NULL) return;
+
+    BSTInOrderTraversal(root->leftChild);
+    printf("%d, ", root->data);
+    BSTInOrderTraversal(root->rightChild);
+}
+
+void BSTPostOrderTraversal(struct BSTNode* root){
+    if(root == NULL) return;
+
+    BSTPostOrderTraversal(root->leftChild);
+    BSTPostOrderTraversal(root->rightChild);
+    printf("%d, ", root->data);
 }
