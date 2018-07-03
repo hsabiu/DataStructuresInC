@@ -78,7 +78,7 @@ int main(void){
     puts("\n");
 
     printNodesInList(headNode);
-    printf("Deleting the node at 5 index from the linked list... \n");
+    printf("Deleting the node at index 5 from the linked list... \n");
     pointerAtIndex = findPointerAtIndex(6, headNode);
     headNode = deleteNode(pointerAtIndex, headNode);
     printf("Deletion successful... \n");

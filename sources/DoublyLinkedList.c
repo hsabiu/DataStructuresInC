@@ -87,13 +87,11 @@ struct Node* findPointerAtIndex(int index, struct Node* headNode){
         return NULL;
     }
 
-    struct Node* tempNode = headNode;
-
     for(int i = 0; i < index - 1; i++){
-        tempNode = tempNode->nextNode;
+        headNode = headNode->nextNode;
     }
     
-    return tempNode;
+    return headNode;
 }
 
 struct Node* reverseList(struct Node* headNode){
