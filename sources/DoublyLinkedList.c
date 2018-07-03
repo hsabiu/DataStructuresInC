@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 struct Node{
     int data;
@@ -7,177 +7,39 @@ struct Node{
     struct Node* nextNode;
 };
 
-// Functions function prototype
-int numItems();
-void printNodesInList();
-void insertNode(int, struct Node*);
-void deleteNode(struct Node*);
-void reverseList();
-void recursiveReverseList(struct Node*);
-void recursivePrintList(struct Node*);
-void recursivePrintListInReverse(struct Node*);
-struct Node* findPointerAtIndex(int);
-
-
-struct Node* headNode;
-
-int main(void){
-
-    int item;
-    int userInput;
-
-    headNode = NULL;
-    struct Node* pointerAtIndex = NULL;
-
-    printf("How many items do you want to initialize? \n");
-    scanf("%d", &userInput);
-
-    for(int i = 0; i < userInput; i++){
-        printf("Enter %d item: \n", i + 1);
-        scanf("%d", &item);
-        insertNode(item, headNode);
-        printNodesInList();
-    }
-
-    puts("\n");
-
-    printf("Inserting 10 at index 0 in the linked list... \n");
-    insertNode(10, headNode);
-    printNodesInList();
-    printf("Inserting 20 at index 3 in the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(3);
-    insertNode(20, pointerAtIndex);
-    printNodesInList();
-    printf("Inserting 30 at index 7 in the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(7);
-    insertNode(30, pointerAtIndex);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Inserting 40 at the begining of the linked list... \n");
-    insertNode(40, headNode);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Inserting 50 at the end of the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(numItems());
-    insertNode(50, pointerAtIndex);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Inserting 60 at index that do not exist in the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(userInput + 6);
-    puts("\n");  
-
-    printNodesInList();
-    printf("Deleting the node at index 0 from the linked list... \n");
-    deleteNode(headNode);
-    printf("Deletion successful... \n");
-
-    puts("\n");
-
-    printNodesInList();
-    printf("Deleting the node at index 0 from the linked list... \n");
-    deleteNode(headNode);
-    printf("Deletion successful... \n");
-
-    puts("\n");
-
-    printNodesInList();
-    printf("Deleting the node at index 2 from the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(3);
-    deleteNode(pointerAtIndex);
-    printf("Deletion successful... \n");
-
-    puts("\n");
-
-    printNodesInList();
-    printf("Deleting the node at 5 index from the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(6);
-    deleteNode(pointerAtIndex);
-    printf("Deletion successful... \n");
-
-    puts("\n");
-
-    printNodesInList();
-    printf("Deleting the node at index 5 from the linked list... \n");
-    pointerAtIndex = findPointerAtIndex(6);
-    deleteNode(pointerAtIndex);
-    printf("Deletion successful... \n");
-
-    puts("\n");
-
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Reversing the linked list... \n");
-    reverseList();
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Reversing the linked list using recursion... \n");
-    recursiveReverseList(headNode);
-    printNodesInList();
-
-    puts("\n");
-
-    printf("Printing the list items using recursion... \n");
-    recursivePrintList(headNode);
-
-    puts("\n");
-
-    printf("Printing the list items in reverse using recursion... \n");
-    recursivePrintListInReverse(headNode);
-
-    puts("\n");
-
-    puts("------------------------------");
-    puts("SUCCESS: ALL TEST CASES PASSED");
-    puts("------------------------------");
-
-    puts("\n");
-
-    return 0;
-}
-
-int numItems(){
+int numItems(struct Node* headNode){
+    
     int num = 1;
-    struct Node* currentNode = headNode;
 
-    while(currentNode->nextNode != NULL){
+    while(headNode->nextNode != NULL){
         num++;
-        currentNode = currentNode->nextNode;
+        headNode = headNode->nextNode;
     }
     return num;
 }
 
-void printNodesInList(){
-
-    struct Node* tempHeadNode = headNode;
+void printNodesInList(struct Node* headNode){
 
     printf("List items: ");
 
-    while(tempHeadNode != NULL){
-        printf("%d, ", tempHeadNode->data);
-        tempHeadNode = tempHeadNode->nextNode;
+    while(headNode != NULL){
+        printf("%d, ", headNode->data);
+        headNode = headNode->nextNode;
     }
 
     printf("\n");
 }
 
-void insertNode(int item, struct Node* position){
+struct Node* insertNode(int item, struct Node* position, struct Node* headNode){
+
     struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->data = item;
+
     if (position == NULL){
         newNode->nextNode = NULL;
         newNode->prevNode = NULL;
         headNode = newNode;
-        return;
+        return headNode;
     }
 
     if(position == headNode){
@@ -191,9 +53,11 @@ void insertNode(int item, struct Node* position){
         newNode->prevNode = position;
         position->nextNode = newNode;   
     }
+
+    return headNode;
 }
 
-void deleteNode(struct Node* position){
+struct Node* deleteNode(struct Node* position, struct Node* headNode){
     
     if(position == headNode){
         headNode = position->nextNode;
@@ -208,12 +72,15 @@ void deleteNode(struct Node* position){
         position->prevNode->nextNode = position->nextNode;
         position->nextNode->prevNode = position->prevNode;
     }
+
     free(position);
+    
+    return headNode;
 }
 
-struct Node* findPointerAtIndex(int index){
+struct Node* findPointerAtIndex(int index, struct Node* headNode){
     
-    int numListItems = numItems();
+    int numListItems = numItems(headNode);
 
     if (index > numListItems){
         printf("===> Can not insert at index %d. \n", index);
@@ -229,56 +96,59 @@ struct Node* findPointerAtIndex(int index){
     return tempNode;
 }
 
-void reverseList(){
+struct Node* reverseList(struct Node* headNode){
 
     struct Node* tempNode = NULL;
-    struct Node* current = headNode;
 
-    while(current->nextNode != NULL){
-        tempNode = current->nextNode;
-        current->nextNode = current->prevNode;
-        current->prevNode = tempNode;
-        current = tempNode;
+    while(headNode->nextNode != NULL){
+        tempNode = headNode->nextNode;
+        headNode->nextNode = headNode->prevNode;
+        headNode->prevNode = tempNode;
+        headNode = tempNode;
     }
 
-    current->nextNode = current->prevNode;
-    current->prevNode = NULL;
-    headNode = current;
+    headNode->nextNode = headNode->prevNode;
+    headNode->prevNode = NULL;
+    
+    return headNode;
+
 }
 
-void recursiveReverseList(struct Node* tempNode){
+struct Node* recursiveReverseList(struct Node* headNode){
 
-    if(tempNode->nextNode == NULL){
-        headNode = tempNode;
-        return;
+    if(headNode->nextNode == NULL){
+        return headNode;
     }
      
-    recursiveReverseList(tempNode->nextNode);
-    tempNode->nextNode->nextNode = tempNode;
-    tempNode->nextNode = NULL;
+    struct Node* newHead = recursiveReverseList(headNode->nextNode);
+    headNode->nextNode->nextNode = headNode;
+    headNode->nextNode = NULL;
+
+    return newHead;
+
 }
 
-void recursivePrintList(struct Node* head){
+void recursivePrintList(struct Node* headNode){
 
-    if(head->nextNode == NULL){
-        printf("%d, ", head->data);
+    if(headNode->nextNode == NULL){
+        printf("%d, ", headNode->data);
         return;
     }
 
-    printf("%d, ", head->data);
-    recursivePrintList(head->nextNode);
+    printf("%d, ", headNode->data);
+    recursivePrintList(headNode->nextNode);
 }
 
 
-void recursivePrintListInReverse(struct Node* head){
+void recursivePrintListInReverse(struct Node* headNode){
 
-    if(head->nextNode == NULL){
-        printf("%d, ", head->data);
+    if(headNode->nextNode == NULL){
+        printf("%d, ", headNode->data);
         return;
     }
 
-    recursivePrintListInReverse(head->nextNode);
-    printf("%d, ", head->data);
+    recursivePrintListInReverse(headNode->nextNode);
+    printf("%d, ", headNode->data);
 
 }
 
