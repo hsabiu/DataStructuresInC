@@ -14,6 +14,16 @@ TestBinaryTree.o: tests/TestBinaryTree.c objects
 	$(CC) $(CFLAGS) -c -Iheaders tests/TestBinaryTree.c -o objects/TestBinaryTree.o
 	
 
+slinkedlist: SinglyLinkedList.o TestSinglyLinkedList.o objects
+	$(CC) $(CFLAGS) objects/SinglyLinkedList.o objects/TestSinglyLinkedList.o -o objects/TestSinglyLinkedList
+	objects/TestSinglyLinkedList
+
+SinglyLinkedList.o: sources/SinglyLinkedList.c objects
+	$(CC) $(CFLAGS) -c -Iheaders sources/SinglyLinkedList.c -o objects/SinglyLinkedList.o
+
+TestSinglyLinkedList.o: tests/TestSinglyLinkedList.c objects
+	$(CC) $(CFLAGS) -c -Iheaders tests/TestSinglyLinkedList.c -o objects/TestSinglyLinkedList.o
+
 
 dlinkedlist: DoublyLinkedList.o TestDoublyLinkedList.o objects
 	$(CC) $(CFLAGS) objects/DoublyLinkedList.o objects/TestDoublyLinkedList.o -o objects/TestDoublyLinkedList
