@@ -36,6 +36,16 @@ TestDoublyLinkedList.o: tests/TestDoublyLinkedList.c objects
 	$(CC) $(CFLAGS) -c -Iheaders tests/TestDoublyLinkedList.c -o objects/TestDoublyLinkedList.o
 	
 
+stack: Stack.o TestStack.o objects
+	$(CC) $(CFLAGS) objects/Stack.o objects/TestStack.o -o objects/TestStack
+	objects/TestStack
+
+Stack.o: sources/Stack.c objects
+	$(CC) $(CFLAGS) -c -Iheaders sources/Stack.c -o objects/Stack.o
+
+TestStack.o: tests/TestStack.c objects
+	$(CC) $(CFLAGS) -c -Iheaders tests/TestStack.c -o objects/TestStack.o
+
 
 objects:
 	mkdir $@
