@@ -1,3 +1,3 @@
-# Data Structures With C
+# Data Structures with C
 
 Implementations of various data structures in C 
